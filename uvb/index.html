@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УВБ-76 - Архив логов радиостанции</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #a8d5f7, #d0e8f7);
+            min-height: 100vh;
+        }
+
+        /* Шапка сайта */
+        .header {
+            background: linear-gradient(to bottom, #b8dff7, #c8e8ff);
+            border-bottom: 3px solid #7ab8e8;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-style: italic;
+            color: #d32f2f;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* Горизонтальное меню */
+        .nav {
+            background: linear-gradient(to bottom, #e1f0f7, #d5e9f5);
+            border-bottom: 2px solid #a0c8e0;
+            height: 50px;
+            padding-top: 0.1px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            overflow: visible;
+        }
+
+        .nav a.pt {
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            float: left;
+            border-right: 1px solid #b0d0e8;
+            padding: 14px 40px;
+            color: #2c3e50;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: background 0.3s ease;
+        }
+
+        .nav a.pt:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+        }
+
+        .nav > div {
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            float: left;
+            position: relative;
+        }
+
+        .nav div .drop {
+            position: absolute;
+            display: none;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .drop_item {
+            text-decoration: none;
+            display: block;
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            color: #2c3e50;
+            border-bottom: 1px solid #b0d0e8;
+            border-right: 1px solid #b0d0e8;
+            padding: 12px 30px;
+            white-space: nowrap;
+            transition: background 0.3s ease;
+            font-weight: 600;
+        }
+
+        .drop_item:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+        }
+
+        .nav div:hover .drop {
+            display: block;
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        /* Левая колонка */
+        .left-column {
+            float: left;
+            width: 180px;
+            margin-right: 15px;
+        }
+
+        .news-block {
+            background: linear-gradient(to bottom, #e8f4fc, #d8eaf8);
+            border: 2px solid #7ab8e8;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+            margin-bottom: 15px;
+        }
+
+        .news-block h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 12px;
+            text-align: center;
+            border-bottom: 2px solid #7ab8e8;
+            padding-bottom: 8px;
+        }
+
+        .news-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #34495e;
+            text-align: justify;
+        }
+
+        /* Правая колонка */
+        .right-column {
+            float: right;
+            width: 180px;
+            margin-left: 15px;
+        }
+
+        .contacts-block {
+            background: linear-gradient(to bottom, #e8f4fc, #d8eaf8);
+            border: 2px solid #7ab8e8;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+            margin-bottom: 15px;
+        }
+
+        .contacts-block h3 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 12px;
+            text-align: center;
+            border-bottom: 2px solid #7ab8e8;
+            padding-bottom: 8px;
+        }
+
+        .contacts-content {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #34495e;
+        }
+
+        .contacts-content ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .contacts-content li {
+            margin-bottom: 8px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .contacts-content li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        /* Центральная колонка */
+        .center-column {
+            overflow: hidden;
+            background: linear-gradient(to bottom, #f5fafd, #e8f4fc);
+            border: 2px solid #a0c8e0;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.15);
+            min-height: 600px;
+        }
+
+        .center-column h2 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #7ab8e8;
+            padding-bottom: 10px;
+        }
+
+        /* Наплывающие блоки с логами */
+        .log-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .base {
+            position: relative;
+            width: 280px;
+            height: 200px;
+            border: 3px solid #7ab8e8;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .base a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .log-content {
+            padding: 15px;
+            color: white;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .log-time {
+            font-size: 16px;
+            color: #ffd700;
+            margin-bottom: 8px;
+        }
+
+        .log-message {
+            font-size: 13px;
+            color: #e0e0e0;
+        }
+
+        .layer {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.95) 0%, rgba(192, 57, 43, 0.95) 100%);
+            transition: left 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            font-size: 16px;
+            padding: 20px;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .layer-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+
+        .layer-description {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .base:hover .layer {
+            left: 0;
+            z-index: 10;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Вертикальное меню слева */
+        .vertical-menu {
+            background: linear-gradient(to bottom, #e8f4fc, #d8eaf8);
+            border: 2px solid #7ab8e8;
+            border-radius: 8px;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .vertical-menu .menu-item {
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            color: #2c3e50;
+            font-weight: 700;
+            border-bottom: 1px solid #b0d0e8;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .vertical-menu .menu-item:first-child {
+            border-radius: 6px 6px 0 0;
+        }
+
+        .vertical-menu .menu-item:last-child {
+            border-radius: 0 0 6px 6px;
+            border-bottom: none;
+        }
+
+        .vertical-menu .menu-item:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+            padding-left: 20px;
+        }
+
+        .vertical-menu .submenu-container {
+            position: relative;
+        }
+
+        .vertical-menu .submenu {
+            display: none;
+            background: #f5fafd;
+        }
+
+        .vertical-menu .submenu-container:hover .submenu {
+            display: block;
+        }
+
+        .vertical-menu .submenu .submenu-item {
+            background: linear-gradient(to bottom, #f8fbfd, #f0f7fc);
+            text-decoration: none;
+            display: block;
+            padding: 10px 15px 10px 30px;
+            color: #34495e;
+            border-bottom: 1px solid #d0e0f0;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+
+        .vertical-menu .submenu .submenu-item:hover {
+            background: linear-gradient(to bottom, #e0f0f8, #d0e8f5);
+            padding-left: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INSTRUCTIONAL DESIGN</h1>
+    </div>
+
+    <nav class="nav">
+        <div>
+            <a class="pt" href="#">Главная</a>
+            <div class="drop">
+                <a class="drop_item" href="#">Главная страница</a>
+                <a class="drop_item" href="#">Контакты</a>
+                <a class="drop_item" href="#">О Нас</a>
+            </div>
+        </div>
+        <a class="pt" href="#">Отделы продаж</a>
+        <div>
+            <a class="pt" href="#">Поставщики</a>
+            <div class="drop">
+                <a class="drop_item" href="#">ООО "Дизайн"</a>
+                <a class="drop_item" href="#">ООО "Арт"</a>
+                <a class="drop_item" href="#">ООО "Фотостиль"</a>
+            </div>
+        </div>
+        <a class="pt" href="#">Наши услуги</a>
+        <a class="pt" href="#">Контакты</a>
+        <a class="pt" href="#">О нас</a>
+    </nav>
+
+    <div class="container clearfix">
+        <aside class="left-column">
+            <div class="news-block">
+                <h3>Новости</h3>
+                <div class="news-content">
+                    <p><strong>15.10.2025:</strong> Зафиксирована необычная активность на частоте 4625 кГц. Передача голосовых сообщений длилась более 2 часов.</p>
+                    <p style="margin-top: 10px;"><strong>10.10.2025:</strong> Обновлена система автоматической записи и архивации логов станции УВБ-76.</p>
+                    <p style="margin-top: 10px;"><strong>05.10.2025:</strong> Добавлен раздел с расшифровкой кодовых названий передач.</p>
+                </div>
+            </div>
+
+            <div class="vertical-menu">
+                <div class="submenu-container">
+                    <a href="#" class="menu-item">Архив логов</a>
+                    <div class="submenu">
+                        <a href="#" class="submenu-item">2025 год</a>
+                        <a href="#" class="submenu-item">2024 год</a>
+                        <a href="#" class="submenu-item">2023 год</a>
+                    </div>
+                </div>
+                <a href="#" class="menu-item">Частоты</a>
+                <div class="submenu-container">
+                    <a href="#" class="menu-item">Справка</a>
+                    <div class="submenu">
+                        <a href="#" class="submenu-item">О станции</a>
+                        <a href="#" class="submenu-item">FAQ</a>
+                        <a href="#" class="submenu-item">Контакты</a>
+                    </div>
+                </div>
+                <a href="#" class="menu-item">Сообщество</a>
+            </div>
+        </aside>
+
+        <aside class="right-column">
+            <div class="contacts-block">
+                <h3>Контакты</h3>
+                <div class="contacts-content">
+                    <p><strong>Адрес:</strong><br>
+                    Москва, ул. Академика Королева 12</p>
+                    <p style="margin-top: 10px;"><strong>Телефон:</strong><br>
+                    8-999-999-99-99</p>
+                    <p style="margin-top: 15px;"><strong>Наши услуги:</strong></p>
+                    <ul>
+                        <li>Мониторинг радиочастот</li>
+                        <li>Архивация логов</li>
+                        <li>Анализ передач</li>
+                        <li>Консультации специалистов</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <main class="center-column">
+            <h2>Последние логи УВБ-76 (28.10.2025)</h2>
+            
+            <div class="log-grid">
+                <div class="base">
+                    <a href="blog.html#log1" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">10:52 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 03245<br>
+                                НЕГРОПОТОП<br>
+                                1089 3317
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #1</div>
+                            <div class="layer-description">
+                                Стандартная голосовая передача. Четкий сигнал. Позывной НЖТИ с числовым кодом и кодовым словом НЕГРОПОТОП.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="base">
+                    <a href="blog.html#log2" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">12:24 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 99105<br>
+                                ГРЕЧНЕВИК<br>
+                                5528 6989
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #2</div>
+                            <div class="layer-description">
+                                Голосовое сообщение средней продолжительности. Кодовое слово ГРЕЧНЕВИК впервые зафиксировано в логах.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="base">
+                    <a href="blog.html#log3" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">14:01 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 01204<br>
+                                КЛИНОБОЕЦ<br>
+                                3226 4768
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #3</div>
+                            <div class="layer-description">
+                                Регулярная дневная передача. Кодовое слово КЛИНОБОЕЦ повторяется второй раз за неделю наблюдений.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="base">
+                    <a href="blog.html#log4" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">16:35 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 77423<br>
+                                ВОДОПРОВОДЧИК<br>
+                                8821 2156
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #4</div>
+                            <div class="layer-description">
+                                Вечерняя передача с необычно длинным кодовым словом. Качество сигнала отличное.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="base">
+                    <a href="blog.html#log5" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">18:47 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 45678<br>
+                                КОМПАСНИК<br>
+                                9034 1287
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #5</div>
+                            <div class="layer-description">
+                                Поздняя передача. Небольшие помехи в канале. Кодовое слово КОМПАСНИК записано впервые.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="base">
+                    <a href="blog.html#log6" style="text-decoration: none; color: inherit;">
+                        <div class="log-content">
+                            <div class="log-time">20:15 по МСК</div>
+                            <div class="log-message">
+                                НЖТИ 62901<br>
+                                ЗЕНИТЧИК<br>
+                                4453 7729
+                            </div>
+                        </div>
+                        <div class="layer">
+                            <div class="layer-title">Передача #6</div>
+                            <div class="layer-description">
+                                Ночная передача завершает дневной цикл. Стандартный формат сообщения с позывным НЖТИ.
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

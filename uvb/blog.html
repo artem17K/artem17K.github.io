@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>УВБ-76 - Детальные логи передач</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #a8d5f7, #d0e8f7);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(to bottom, #b8dff7, #c8e8ff);
+            border-bottom: 3px solid #7ab8e8;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-style: italic;
+            color: #d32f2f;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav {
+            background: linear-gradient(to bottom, #e1f0f7, #d5e9f5);
+            border-bottom: 2px solid #a0c8e0;
+            height: 50px;
+            padding-top: 0.1px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            overflow: visible;
+        }
+
+        .nav a.pt {
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            text-decoration: none;
+            font-size: 16px;
+            text-align: center;
+            display: block;
+            float: left;
+            border-right: 1px solid #b0d0e8;
+            padding: 14px 40px;
+            color: #2c3e50;
+            text-transform: uppercase;
+            font-weight: 700;
+            transition: background 0.3s ease;
+        }
+
+        .nav a.pt:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+        }
+
+        .nav div {
+            position: relative;
+            float: left;
+        }
+
+        .nav div .drop {
+            position: absolute;
+            display: none;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .drop_item {
+            text-decoration: none;
+            display: block;
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            color: #2c3e50;
+            border-bottom: 1px solid #b0d0e8;
+            border-right: 1px solid #b0d0e8;
+            padding: 12px 30px;
+            white-space: nowrap;
+            transition: background 0.3s ease;
+            font-weight: 600;
+        }
+
+        .drop_item:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+        }
+
+        .nav div:hover .drop {
+            display: block;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #f0f7fc, #e8f2f9);
+            border: 2px solid #7ab8e8;
+            border-radius: 8px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .back-link:hover {
+            background: linear-gradient(to bottom, #d0e8f5, #b8d8f0);
+            transform: translateX(-5px);
+        }
+
+        .blog-post {
+            background: linear-gradient(to bottom, #f5fafd, #e8f4fc);
+            border: 3px solid #7ab8e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .post-image {
+            width: 200px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: contain;
+            border: 2px solid #7ab8e8;
+            flex-shrink: 0;
+            background: #ffffff;
+        }
+
+        .post-content-wrapper {
+            flex: 1;
+        }
+
+        .post-date {
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .post-time {
+            font-size: 24px;
+            color: #d32f2f;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 15px;
+        }
+
+        .log-code {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.6;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .log-code .code-line {
+            margin: 3px 0;
+        }
+
+        .log-code .highlight {
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>INSTRUCTIONAL DESIGN</h1>
+    </div>
+
+    <nav class="nav">
+        <div>
+            <a class="pt" href="index.html">Главная</a>
+            <div class="drop">
+                <a class="drop_item" href="#">Главная страница</a>
+                <a class="drop_item" href="#">Контакты</a>
+                <a class="drop_item" href="#">О Нас</a>
+            </div>
+        </div>
+        <a class="pt" href="#">Отделы продаж</a>
+        <div>
+            <a class="pt" href="#">Поставщики</a>
+            <div class="drop">
+                <a class="drop_item" href="#">ООО "Дизайн"</a>
+                <a class="drop_item" href="#">ООО "Арт"</a>
+                <a class="drop_item" href="#">ООО "Фотостиль"</a>
+            </div>
+        </div>
+        <a class="pt" href="#">Наши услуги</a>
+        <a class="pt" href="#">Контакты</a>
+        <a class="pt" href="#">О нас</a>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-link">← Вернуться на главную</a>
+
+        <!-- Пост 1 -->
+        <article class="blog-post" id="log1">
+            <img src="img/image1.png" alt="Передача #1" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">10:52 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 03245</span></div>
+                    <div class="code-line"><span class="highlight">НЕГРОПОТОП</span></div>
+                    <div class="code-line">1089 3317</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Пост 2 -->
+        <article class="blog-post" id="log2">
+            <img src="img/image2.png" alt="Передача #2" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">12:24 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 99105</span></div>
+                    <div class="code-line"><span class="highlight">ГРЕЧНЕВИК</span></div>
+                    <div class="code-line">5528 6989</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Пост 3 -->
+        <article class="blog-post" id="log3">
+            <img src="img/image3.png" alt="Передача #3" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">14:01 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 01204</span></div>
+                    <div class="code-line"><span class="highlight">КЛИНОБОЕЦ</span></div>
+                    <div class="code-line">3226 4768</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Пост 4 -->
+        <article class="blog-post" id="log4">
+            <img src="img/image4.png" alt="Передача #4" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">16:35 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 77423</span></div>
+                    <div class="code-line"><span class="highlight">ВОДОПРОВОДЧИК</span></div>
+                    <div class="code-line">8821 2156</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Пост 5 -->
+        <article class="blog-post" id="log5">
+            <img src="img/image5.png" alt="Передача #5" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">18:47 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 45678</span></div>
+                    <div class="code-line"><span class="highlight">КОМПАСНИК</span></div>
+                    <div class="code-line">9034 1287</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Пост 6 -->
+        <article class="blog-post" id="log6">
+            <img src="img/image6.png" alt="Передача #6" class="post-image">
+            <div class="post-content-wrapper">
+                <div class="post-date">28 октября 2025</div>
+                <div class="post-time">20:15 по МСК</div>
+                <div class="log-code">
+                    <div class="code-line"><span class="highlight">НЖТИ 62901</span></div>
+                    <div class="code-line"><span class="highlight">ЗЕНИТЧИК</span></div>
+                    <div class="code-line">4453 7729</div>
+                </div>
+            </div>
+        </article>
+
+        <a href="index.html" class="back-link">← Вернуться на главную</a>
+    </div>
+</body>
+</html>
